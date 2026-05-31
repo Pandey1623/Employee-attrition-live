@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import joblib
+import os
 import numpy as np
 import warnings
 
@@ -11,8 +12,9 @@ CORS(app) # Isse aapka frontend dashboard backend se connect hoga
 
 # Model aur Features files ko load karna
 try:
-    model = joblib.load('model/attrition_model.pkl')
-    expected_features = joblib.load('model/features.pkl')
+    base_path = os.path.dirname(__file__)
+    model = joblib.load(os.path.join(base_path, 'model', 'attrition_model.pkl'))
+    expected_features = joblib.load(os.path.join(base_path, 'model', 'features.pkl'))
     print("====================================")
     print("🔥 ENGINE START: ML Model Successfully Loaded! 🔥")
     print("====================================")
