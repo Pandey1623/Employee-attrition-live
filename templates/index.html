@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employee Attrition Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="../static/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="logo">
+        <div class="logo-icon">👥</div>
+        <div>
+          <h2>EMPLOYEE INSIGHTS</h2>
+          <p>Attrition Prediction System</p>
+        </div>
+      </div>
+      <nav class="menu">
+        <a class="active" onclick="showPage('dashboard', this)">🏠 Dashboard</a>
+        <a onclick="showPage('employee-form', this)">📝 Employee Form</a>
+        <a onclick="showPage('prediction', this)">📊 Prediction Result</a>
+        <a onclick="showPage('analytics', this)">📈 Analytics</a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div>
+          <h1 id="pageTitle">Dashboard</h1>
+          <p>Employee attrition prediction and analytics overview.</p>
+        </div>
+        <input class="search-box" placeholder="Search employee, department, report..." />
+      </div>
+
+      <section id="dashboard" class="page active-page">
+        <div class="cards">
+          <div class="card"><div class="icon purple">👤</div><p>Total Employees</p><h2>452</h2><span>↑ 12 this month</span></div>
+          <div class="card"><div class="icon pink">⚠️</div><p>At Risk Employees</p><h2 id="atRiskCount">78</h2><span style="color:#f87171;">↑ 8 this month</span></div>
+          <div class="card"><div class="icon green">✅</div><p>Low Risk Employees</p><h2 id="lowRiskCount">256</h2><span>↑ 10 this month</span></div>
+          <div class="card"><div class="icon blue">📌</div><p>Retention Rate</p><h2>85%</h2><span>↑ 5% improvement</span></div>
+        </div>
+
+        <div class="grid">
+          <div class="panel">
+            <h3>Recent Predictions</h3>
+            <table class="table">
+              <thead><tr><th>Employee</th><th>Department</th><th>Risk</th><th>Score</th></tr></thead>
+              <tbody>
+                <tr><td>Rahul Sharma</td><td>Sales</td><td><span class="risk high">High</span></td><td>87%</td></tr>
+                <tr><td>Priya Verma</td><td>Marketing</td><td><span class="risk medium">Medium</span></td><td>62%</td></tr>
+                <tr><td>Amit Singh</td><td>Development</td><td><span class="risk low">Low</span></td><td>23%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="panel">
+            <h3>Top Risk Factors</h3>
+            <div class="factors">
+              <div class="factor-row"><span>Overtime</span><div class="bar"><div style="width:72%"></div></div><span>72%</span></div>
+              <div class="factor-row"><span>Low Salary</span><div class="bar"><div style="width:58%"></div></div><span>58%</span></div>
+              <div class="factor-row"><span>Job Satisfaction</span><div class="bar"><div style="width:46%"></div></div><span>46%</span></div>
+              <div class="factor-row"><span>Work Life</span><div class="bar"><div style="width:34%"></div></div><span>34%</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="employee-form" class="page">
+        <div class="panel">
+          <h3>Employee Prediction Form</h3>
+          <div class="input-group"><label>Employee Name</label><input id="name" type="text" placeholder="Enter employee name" /></div>
+         <div class="form-card">
+            <div class="input-group"><label>Age</label><input id="age" type="number" placeholder="Enter age" /></div>
+            <div class="input-group"><label>Monthly Income</label><input id="salary" type="number" placeholder="Enter salary" /></div>
+            <div class="input-group">
+              <label>Job Satisfaction</label>
+              <select id="satisfaction">
+                <option value="1">1 - Low</option>
+                <option value="2">2 - Medium</option>
+                <option value="3">3 - High</option>
+                <option value="4">4 - Very High</option>
+              </select>
+            </div>
+            <div class="input-group"><label>Overtime</label><select id="overtime"><option value="Yes">Yes</option><option value="No">No</option></select></div>
+            <div class="input-group"><label>Total Experience (Years)</label><input id="experience" type="number" placeholder="Total years" /></div>
+            
+            <button class="btn" onclick="predictDemo()" style="grid-column: span 3; margin-top: 20px;">Predict Attrition</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="prediction" class="page">
+        <div class="panel result-box">
+          <h3>Prediction Result</h3>
+          <h2 id="resultText">No Prediction Yet</h2>
+          <p id="resultDesc">Fill the employee form and click Predict Attrition.</p>
+        </div>
+      </section>
+
+      <section id="analytics" class="page">
+        <div class="grid">
+          <div class="panel"><h3>Risk Trend</h3><canvas id="lineChart"></canvas></div>
+          <div class="panel"><h3>Risk Distribution</h3><canvas id="doughnutChart"></canvas></div>
+        </div>
+      </section>
+    </main>
+  </div>
+<script src="../static/script.js"></script>
+</body>
+</html>
