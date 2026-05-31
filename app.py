@@ -1,8 +1,9 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import joblib
 import os
 import numpy as np
+import pandas as pd
 import warnings
 
 warnings.filterwarnings("ignore")
@@ -23,7 +24,9 @@ except Exception as e:
     print(f"❌ Error loading model files: {e}")
     print("Check kariye ki 'model' folder mein sahi files hain ya nahi.")
     print("====================================")
-
+@app.route('/')
+def home():
+    return render_template('index.html')
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
