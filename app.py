@@ -37,8 +37,8 @@ def predict():
             "Age": int(data.get("Age", 0)),
             "MonthlyIncome": float(data.get("MonthlyIncome", 0)),
             "JobSatisfaction": int(data.get("JobSatisfaction", 1)),
-            "TotalWorkingYears": int(data.get("TotalExperience", 0)),
-            "Overtime_Yes": 1 if data.get("Overtime")== "yes" else 0)) # add here frontend and backend 
+            "TotalWorkingYears": int(data.get("TotalWorkingYears", 0)),
+            "Overtime_Yes": int(data.get("Overtime_ yes", 0)) # add here frontend and backend 
         }
         
         # make Features  list acording to machine learning model's sequence 
