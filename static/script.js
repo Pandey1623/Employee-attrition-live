@@ -24,7 +24,7 @@ async function predictDemo() {
 
     const formData = {
         "Age": parseInt(age),
-        "MonthlyIncome": parseFloat(salary) /100 ,
+        "MonthlyIncome": parseFloat(salary),
         "JobSatisfaction": parseInt(document.getElementById('satisfaction').value),
         "Overtime_ yes": document.getElementById('overtime').value === "Yes" ? 1 : 0,
         "TotalWorkingYears": parseInt(experience)
@@ -37,29 +37,6 @@ async function predictDemo() {
             body: JSON.stringify(formData)
         });
         const data = await response.json();
-        if (data.status == "success") {
-            const resText document.getElementById('resultText');
-            resText.innerText = data.message;
-            resText.style.color = (data.risk_level === "high") ? "#f87171": "#4ade80";
-            document.getElementById('resultDesc').innerText = "Analysis for " + employeeName + completed.";
-                updateAnalyticsChart(data.risk_level);
-            showPage('prediction' Idocument.querySelectorAll(".menu a")[2]);
-        }
-    } catch (e) { alert("Server Error! Check if app.py is running."); }
-}
-
-function updateAnalyticsChart(riskLevel){
-        if (data.status === "success") {
-            const resText = document.getElementById('resultText');
-            resText.innerText = data.message;
-            resText.style.color = (data.risk_level === "high") ? "#f87171" : "#4ade80";
-            document.getElementById('resultDesc').innerText = "Analysis for " + document.getElementById('name').value + " completed.";
-            updateAnalyticsChart(data.risk_level);
-            showPage('prediction', document.querySelectorAll(".menu a")[2]);
-        }
-
-        if (data.status === "success") {
-            const resText = document.getElementById('resultText');
         if (data.status === "success") {
             const resText = document.getElementById('resultText');
             resText.innerText = data.message;
