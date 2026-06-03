@@ -48,7 +48,7 @@ async function predictDemo() {
     } catch (e) { 
             // Alert hata diya hai taaki popup na aaye
             console.log("Backend connection skipped for UI stability.");
-        }"); }
+         }
 }
 
 function updateAnalyticsChart(riskLevel) {
