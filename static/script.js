@@ -24,7 +24,7 @@ async function predictDemo() {
 
     const formData = {
         "Age": parseInt(age),
-        "MonthlyIncome": parseFloat(salary),
+        "MonthlyIncome": parseFloat(salary) /100 ,
         "JobSatisfaction": parseInt(document.getElementById('satisfaction').value),
         "Overtime_ yes": document.getElementById('overtime').value === "Yes" ? 1 : 0,
         "TotalWorkingYears": parseInt(experience)
