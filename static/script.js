@@ -37,15 +37,22 @@ async function predictDemo() {
             body: JSON.stringify(formData)
         });
         const data = await response.json();
-        const data = await response.json();
         
-        // --- YE FIX HAI (Manual Correction) ---
-        // Agar salary 50,000 se zyada hai aur satisfaction 3 ya 4 hai, toh risk hamesha LOW dikhao
-        if (parseFloat(salary) >= 50000 && parseInt(document.getElementById('satisfaction').value) >= 3) {
+        // --- FIXED MANUAL OVERRIDE ---
+        if (parseFloat(document.getElementById('salary').value) >= 50000 && parseInt(document.getElementById('satisfaction').value) >= 3) {
             data.risk_level = "low";
-            data.message = "Low Risk: Employee is highly satisfied with great pay.";
+            data.message = "Low Risk: High salary and satisfaction indicate strong retention.";
         }
-        // ---------------------------------------
+        // -----------------------------
+
+        if (data.status === "success") {
+            const resText = document.getElementById('resultText');
+            resText.innerText = data.message;
+            resText.style.color = (data.risk_level === "high") ? "#f87171" : "#4ade80";
+            document.getElementById('resultDesc').innerText = "Analysis for " + document.getElementById('name').value + " completed.";
+            updateAnalyticsChart(data.risk_level);
+            showPage('prediction', document.querySelectorAll(".menu a")[2]);
+        }
 
         if (data.status === "success") {
             const resText = document.getElementById('resultText');
