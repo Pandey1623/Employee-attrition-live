@@ -37,14 +37,18 @@ async function predictDemo() {
             body: JSON.stringify(formData)
         });
         const data = await response.json();
-        
-        // --- FIXED MANUAL OVERRIDE ---
-        if (parseFloat(document.getElementById('salary').value) >= 50000 && parseInt(document.getElementById('satisfaction').value) >= 3) {
-            data.risk_level = "low";
-            data.message = "Low Risk: High salary and satisfaction indicate strong retention.";
+        if (data.status == "success") {
+            const resText document.getElementById('resultText');
+            resText.innerText = data.message;
+            resText.style.color = (data.risk_level === "high") ? "#f87171": "#4ade80";
+            document.getElementById('resultDesc').innerText = "Analysis for " + employeeName + completed.";
+                updateAnalyticsChart(data.risk_level);
+            showPage('prediction' Idocument.querySelectorAll(".menu a")[2]);
         }
-        // -----------------------------
+    } catch (e) { alert("Server Error! Check if app.py is running."); }
+}
 
+function updateAnalyticsChart(riskLevel){
         if (data.status === "success") {
             const resText = document.getElementById('resultText');
             resText.innerText = data.message;
