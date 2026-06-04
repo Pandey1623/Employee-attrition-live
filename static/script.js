@@ -33,11 +33,11 @@ async function predictDemo() {
 
         if (resText) {
             if (overtimeValue === "Yes" || satisfactionValue === "1") {
-                resText.innerText = "Risk High: High Probability of Attrition";
+                resText.innerText = "Risk High: Employee might leave";
                 resText.style.color = "#f87171"; 
                 resDesc.innerText = "Analysis for " + nameValue + " completed. High risk detected due to Overtime or Low Satisfaction.";
             } else {
-                resText.innerText = "Risk Low: Employee is Stable";
+                resText.innerText = "Risk Low: Employee will stay";
                 resText.style.color = "#4ade80"; 
                 resDesc.innerText = "Analysis for " + nameValue + " completed. Indicators show high stability.";
             }
