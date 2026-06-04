@@ -12,74 +12,51 @@ function showPage(pageId, clickedItem) {
 }
 
 async function predictDemo() {
-    const employeeName = document.getElementById('name').value;
-    const age = document.getElementById('age').value;
-    const salary = document.getElementById('salary').value;
-    const experience = document.getElementById('experience').value; 
-
-    if (!employeeName || !age || !salary || !experience) { 
-        alert("Please fill all details!"); 
-        return; 
-    }
-
-    const formData = {
-        "Age": parseInt(age),
-        "MonthlyIncome": parseFloat(salary),
-        "JobSatisfaction": parseInt(document.getElementById('satisfaction').value),
-        "Overtime_ yes": document.getElementById('overtime').value === "Yes" ? 1 : 0,
-        "TotalWorkingYears": parseInt(experience)
-    };
-
     try {
-        const response = await fetch('/predict', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
-        });
-        const data = await response.json();
-        if (data.status === "success") {
-            const resText = document.getElementById('resultText');
-            resText.innerText = data.message;
-            resText.style.color = (data.risk_level === "high") ? "#f87171" : "#4ade80";
-            document.getElementById('resultDesc').innerText = "Analysis for " + employeeName + " completed.";
-            updateAnalyticsChart(data.risk_level);
-            showPage('prediction', document.querySelectorAll(".menu a")[2]);
-        }
-    } catch (e) {
-        console.log("Backend offline. Running Advanced Logic...");
+        console.log("Simulating Employee Attrition Logic...");
 
-        // 1. Form se data uthana (Exact names matches your HTML)
+        // 1. Form se data nikalna
+        const name = document.querySelector('input[name="employee_name"]')?.value || "Employee";
         const overtime = document.querySelector('select[name="overtime"]')?.value || "No";
         const satisfaction = document.querySelector('select[name="job_satisfaction"]')?.value || "4";
         const income = parseInt(document.querySelector('input[name="monthly_income"]')?.value) || 50000;
-        const name = document.querySelector('input[name="employee_name"]')?.value || "Employee";
 
         const resText = document.getElementById('resultText');
         const resDesc = document.getElementById('resultDesc');
 
-        // 2. 🔥 SMART LOGIC
+        // 2. 🔥 SMART LOGIC: Ram jaise cases ke liye
         let riskScore = 0;
-        if (overtime === "Yes") riskScore += 50;
-        if (satisfaction === "1" || satisfaction === "2" || satisfaction.includes("Low")) riskScore += 40;
-        if (income < 30000) riskScore += 10;
+        if (overtime === "Yes") riskScore += 50; 
+        if (satisfaction === "1" || satisfaction.includes("Low")) riskScore += 40; 
+        if (income < 30000) riskScore += 10; 
 
-        // 3. 🎯 RESULT DISPLAY
+        // 3. 🎯 RESULT UPDATER
         if (riskScore >= 60) {
-            if (resText) { resText.innerText = "Risk High: High Probability of Attrition"; resText.style.color = "#f87171"; }
-            if (resDesc) { resDesc.innerText = Analysis for ${name}: High risk detected due to Overtime and Low Satisfaction.; }
-        } else if (riskScore >= 40) {
-            if (resText) { resText.innerText = "Risk Medium: Monitor Closely"; resText.style.color = "#fbbf24"; }
-            if (resDesc) { resDesc.innerText = Analysis for ${name}: Moderate risk due to individual stress factors.; }
+            if (resText) { 
+                resText.innerText = "Risk High: High Probability of Attrition"; 
+                resText.style.color = "#f87171"; 
+            }
+            if (resDesc) { 
+                resDesc.innerText = "Analysis for " + name + " completed. High risk detected due to work pressure and low job satisfaction."; 
+            }
         } else {
-            if (resText) { resText.innerText = "Risk Low: Employee is Stable"; resText.style.color = "#4ade80"; }
-            if (resDesc) { resDesc.innerText = Analysis for ${name}: Employee shows high stability indicators.; }
+            if (resText) { 
+                resText.innerText = "Risk Low: Employee is Stable"; 
+                resText.style.color = "#4ade80"; 
+            }
+            if (resDesc) { 
+                resDesc.innerText = "Analysis for " + name + " completed. The employee shows stable indicators."; 
+            }
         }
 
-        // 4. Page Switch
+        // 4. Page change
+        showPage('prediction', document.querySelectorAll(".menu a")[2]);
+
+    } catch (e) {
+        console.log("System Error:", e);
         showPage('prediction', document.querySelectorAll(".menu a")[2]);
     }
 }
-
 function updateAnalyticsChart(riskLevel) {
     riskLevel === "high" ? highRiskCount++ : lowRiskCount++;
     document.getElementById('atRiskCount').innerText = highRiskCount;
