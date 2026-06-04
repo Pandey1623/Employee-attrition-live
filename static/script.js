@@ -22,38 +22,40 @@ function showPage(pageId, clickedItem) {
 // 2. Main Logic: Jo High Risk aur Low Risk dono dikhayega
 async function predictDemo() {
     try {
-        console.log("Prediction logic running...");
-
-        // Form se data nikalna
-        const name = document.querySelector('[name="employee_name"]')?.value || "Employee";
+        // 1. Form se live data uthana
         const overtime = document.querySelector('[name="overtime"]')?.value || "No";
         const satisfaction = document.querySelector('[name="job_satisfaction"]')?.value || "4";
+        const name = document.querySelector('[name="employee_name"]')?.value || "Employee";
 
         const resText = document.getElementById('resultText');
         const resDesc = document.getElementById('resultDesc');
 
-        // 🔥 DONO CASE FIX: High Risk aur Low Risk
-        if (overtime === "Yes" || overtime === "yes" || satisfaction === "1" || satisfaction.toLowerCase().includes("low") || satisfaction.includes("1")) {
-            // CASE 1: HIGH RISK
+        console.log("Current Selection:", overtime, satisfaction);
+
+        // 2. 🔥 DYNAMIC LOGIC (Jo tumne manga hai)
+        
+        // Agar Overtime "Yes" hai YA Satisfaction "1" (Low) hai -> HIGH RISK
+        if (overtime === "Yes" || satisfaction === "1" || satisfaction.includes("Low")) {
             if (resText) {
                 resText.innerText = "Risk High: High Probability of Attrition";
-                resText.style.color = "#f87171"; // Red
+                resText.style.color = "#f87171"; // Red Color
             }
             if (resDesc) {
-                resDesc.innerText = "Analysis for " + name + " completed. Warning: High risk detected due to Overtime and Low Job Satisfaction.";
+                resDesc.innerText = "Analysis for " + name + " completed. High risk detected due to Overtime or Low Satisfaction.";
             }
-        } else {
-            // CASE 2: LOW RISK
+        } 
+        // Agar Overtime "No" hai aur Satisfaction "3" ya "4" hai -> LOW RISK
+        else {
             if (resText) {
                 resText.innerText = "Risk Low: Employee is Stable";
-                resText.style.color = "#4ade80"; // Green
+                resText.style.color = "#4ade80"; // Green Color
             }
             if (resDesc) {
-                resDesc.innerText = "Analysis for " + name + " completed. Indicators show that the employee is likely to stay.";
+                resDesc.innerText = "Analysis for " + name + " completed. Indicators show high stability.";
             }
         }
 
-        // Result page par le jao
+        // Result page par jump karna
         showPage('prediction', document.querySelectorAll(".menu a")[2]);
 
     } catch (e) {
