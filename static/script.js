@@ -96,27 +96,5 @@ window.onload = function() {
             }
         });
     }
-    const dashCtx = document.getElementById('dashDoughnutChart');
-if (dashCtx) {
-    new Chart(dashCtx, {
-        type: 'doughnut',
-        data: { 
-            labels: ['High Risk', 'Med Risk', 'Low Risk'], 
-            datasets: [{ 
-                data: [78, 114, 256], // Exact matching data from photo
-                backgroundColor: ['#ef4444', '#f59e0b', '#22c55e'],
-                borderWidth: 0 
-            }] 
-        },
-        options: { 
-            responsive: true, 
-            maintainAspectRatio: false,
-            plugins: { 
-                legend: { 
-                    position: 'bottom', 
-                    labels: { color: '#fff', font: { size: 10 } } 
-                } 
-            } 
-        }
-    });
+  
 };
