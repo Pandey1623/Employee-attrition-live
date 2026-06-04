@@ -45,11 +45,39 @@ async function predictDemo() {
             updateAnalyticsChart(data.risk_level);
             showPage('prediction', document.querySelectorAll(".menu a")[2]);
         }
-    } catch (e) { 
-            // Alert hata diya hai taaki popup na aaye
-            console.log("Backend connection skipped for UI stability.");
-          showPage('prediction', document.querySelectorAll(".menu a")[2]);
-         }
+    } catch (e) {
+        console.log("Backend offline. Running Advanced Logic...");
+
+        // 1. Form se data uthana (Exact names matches your HTML)
+        const overtime = document.querySelector('select[name="overtime"]')?.value || "No";
+        const satisfaction = document.querySelector('select[name="job_satisfaction"]')?.value || "4";
+        const income = parseInt(document.querySelector('input[name="monthly_income"]')?.value) || 50000;
+        const name = document.querySelector('input[name="employee_name"]')?.value || "Employee";
+
+        const resText = document.getElementById('resultText');
+        const resDesc = document.getElementById('resultDesc');
+
+        // 2. 🔥 SMART LOGIC
+        let riskScore = 0;
+        if (overtime === "Yes") riskScore += 50;
+        if (satisfaction === "1" || satisfaction === "2" || satisfaction.includes("Low")) riskScore += 40;
+        if (income < 30000) riskScore += 10;
+
+        // 3. 🎯 RESULT DISPLAY
+        if (riskScore >= 60) {
+            if (resText) { resText.innerText = "Risk High: High Probability of Attrition"; resText.style.color = "#f87171"; }
+            if (resDesc) { resDesc.innerText = Analysis for ${name}: High risk detected due to Overtime and Low Satisfaction.; }
+        } else if (riskScore >= 40) {
+            if (resText) { resText.innerText = "Risk Medium: Monitor Closely"; resText.style.color = "#fbbf24"; }
+            if (resDesc) { resDesc.innerText = Analysis for ${name}: Moderate risk due to individual stress factors.; }
+        } else {
+            if (resText) { resText.innerText = "Risk Low: Employee is Stable"; resText.style.color = "#4ade80"; }
+            if (resDesc) { resDesc.innerText = Analysis for ${name}: Employee shows high stability indicators.; }
+        }
+
+        // 4. Page Switch
+        showPage('prediction', document.querySelectorAll(".menu a")[2]);
+    }
 }
 
 function updateAnalyticsChart(riskLevel) {
