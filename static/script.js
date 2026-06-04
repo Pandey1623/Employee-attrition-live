@@ -2,7 +2,7 @@ let highRiskCount = 78;
 let lowRiskCount = 256;
 let myDoughnutChart;
 
-// 1. Pages ke beech mein switch karne ka function (Buttons ke liye)
+// 1. Page change karne ka function
 function showPage(pageId, clickedItem) {
     document.querySelectorAll(".page").forEach(p => p.classList.remove("active-page"));
     document.getElementById(pageId).classList.add("active-page");
@@ -19,51 +19,50 @@ function showPage(pageId, clickedItem) {
     if (titleElement) titleElement.innerText = titles[pageId] || "Dashboard";
 }
 
-// 2. Main Prediction Logic Function (Dono High/Low Risk aur Button Fix)
+// 2. Main Logic: Jo High Risk aur Low Risk dono dikhayega
 async function predictDemo() {
     try {
-        console.log("Running Final Prediction Logic...");
+        console.log("Prediction logic running...");
 
-        // Form se data nikalna (HTML inputs se connect karne ke liye)
-        const name = document.querySelector('input[name="employee_name"]')?.value || "Employee";
-        const overtime = document.querySelector('select[name="overtime"]')?.value || "No";
-        const satisfaction = document.querySelector('select[name="job_satisfaction"]')?.value || "4";
-        const income = parseInt(document.querySelector('input[name="monthly_income"]')?.value) || 50000;
+        // Form se data nikalna
+        const name = document.querySelector('[name="employee_name"]')?.value || "Employee";
+        const overtime = document.querySelector('[name="overtime"]')?.value || "No";
+        const satisfaction = document.querySelector('[name="job_satisfaction"]')?.value || "4";
 
         const resText = document.getElementById('resultText');
         const resDesc = document.getElementById('resultDesc');
 
-        // 🔥 DYNAMIC HIGH & LOW RISK LOGIC (Jo bharoge, wahi sahi answer aayega)
-        if (overtime === "Yes" || satisfaction === "1" || satisfaction.toLowerCase().includes("low")) {
-            // CASE A: Agar Overtime 'Yes' hai YA Satisfaction 'Low/1' hai -> 100% HIGH RISK
+        // 🔥 DONO CASE FIX: High Risk aur Low Risk
+        if (overtime === "Yes" || overtime === "yes" || satisfaction === "1" || satisfaction.toLowerCase().includes("low") || satisfaction.includes("1")) {
+            // CASE 1: HIGH RISK
             if (resText) {
                 resText.innerText = "Risk High: High Probability of Attrition";
-                resText.style.color = "#f87171"; // Ekdum Laal Danger Color
+                resText.style.color = "#f87171"; // Red
             }
             if (resDesc) {
-                resDesc.innerText = "Analysis for " + name + " completed. High risk detected: Overtime pressure and Low Satisfaction are strong indicators of leaving.";
+                resDesc.innerText = "Analysis for " + name + " completed. Warning: High risk detected due to Overtime and Low Job Satisfaction.";
             }
         } else {
-            // CASE B: Agar Overtime 'No' hai aur Satisfaction achhi hai -> 100% LOW RISK
+            // CASE 2: LOW RISK
             if (resText) {
                 resText.innerText = "Risk Low: Employee is Stable";
-                resText.style.color = "#4ade80"; // Ekdum Hara Safe Color
+                resText.style.color = "#4ade80"; // Green
             }
             if (resDesc) {
-                resDesc.innerText = "Analysis for " + name + " completed. Employee shows stable indicators and is likely to stay.";
+                resDesc.innerText = "Analysis for " + name + " completed. Indicators show that the employee is likely to stay.";
             }
         }
 
-        // 🎯 BUTTON FIX: Form submit hote ہی result waale page par le jayega
+        // Result page par le jao
         showPage('prediction', document.querySelectorAll(".menu a")[2]);
 
     } catch (e) {
-        console.log("Error logic bypass:", e);
+        console.log("Error:", e);
         showPage('prediction', document.querySelectorAll(".menu a")[2]);
     }
 }
 
-// 3. Page load hone par Chart banane ka sahi function (Brackets error fixed)
+// 3. Chart setup
 window.onload = function() {
     const doughnutCtx = document.getElementById('doughnutChart');
     if (doughnutCtx) {
